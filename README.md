@@ -1,70 +1,70 @@
-# 📜 Cálculos de Kidush Hajoidesh
-Este proyecto es una herramienta de estudio y cálculo sobre las **Tekufot** (estaciones del año) y el **Molad** (nacimiento de la luna) según la tradición judía, permitiendo comparar los cálculos tradicionales con los datos astronómicos reales modernos.
+# Proyecto de Cálculos del Calendario Hebreo (Molad y Tekufot)
 
-la base de todo es el libro Kidush Hajoidesh de Maimonides Kidush Hajoidesh donde te encontraras 
+la base de todo es el libro Kidush Hajoidesh de Maimonides Kidush Hajoidesh (capitulos 6-10)
 
-**Tekufot** la discucion entre rab shmuel y rab ada bar ahava y hacemos una conversion con el real
 
-**Molad** la aparicion de la luna cada mes y las posposiciones de Rosh Hashaná, con los calculos de sobrante en cada mes y las dejiot (empujar) condicionalmente para rosh hashana (no puede ser cada dia, tiene 4 condiciones segun la ley judia)
+**Molad** la aparicion de la luna cada mes y las posposiciones de Rosh Hashaná, con los calculos de sobrante en cada mes y las dejiot (empujar) condicionalmente para rosh hashana (no puede ser cada dia, tiene 4 condiciones segun la ley judia) (capitulos 6-8)
+**Tekufot** la discucion entre rab shmuel y rab ada bar ahava y hacemos una conversion con el real (capitulo 9-10)
 
----
-
-## 🚀 Inicialización
-
-Para poner en marcha el proyecto, asegúrate de tener [Node.js](https://nodejs.org/) instalado y sigue estos pasos:
-
-1. **Clonar el repositorio** (o descargar los archivos).
-2. **Instalar dependencias**:
-   ```bash
-   npm install
-   ```
+Este sistema modular permite realizar cálculos astronómicos y halájicos precisos relacionados con el calendario hebreo, unificando el estudio del **Molad** (ciclo lunar) y las **Tekufot** (estaciones/ciclos solares).
 
 ---
 
-## 🛠️ Uso del Comparador Principal
+## 🚀 Cómo usar el sistema (Panel de Control Central)
 
-El núcleo del proyecto actualmente permite comparar las dos grandes opiniones sobre las estaciones (**Shmuel** y **Rav Ada**) frente al **Punto Astronómico Real** (Equinoccios y Solsticios calculados con algoritmos de alta precisión).
+Desde la raíz del proyecto, utiliza el archivo `main.js` para realizar todas las consultas de forma intuitiva:
 
-### Ejecución
-El punto de entrada es `main.js`. Debes pasarle el nombre del mes hebreo y opcionalmente el año.
+### 1. Cálculos de Molad y Rosh Hashaná
+Utiliza el subcomando `molad` (o simplemente `m`):
 
-```bash
-node main.js <mes_hebreo> [año_hebreo]
-```
-
-#### Ejemplos:
-*   **Para un mes que inicia estación:**
+*   **Resumen del Año**: Obtén el tipo de año (Jaser, Ke-Sidran, Shalem), duración y fecha de Rosh Hashaná.
     ```bash
-    node main.js nisan 5786
+    node main.js molad 5788
     ```
-*   **Para un mes intermedio** (el sistema detectará que no inicia estación y te mostrará los dos puntos más cercanos):
+*   **Molad de un Mes Específico**:
     ```bash
-    node main.js iyar 5786
+    node main.js molad 5788 Nisan
+    ```
+*   **Navegación Dinámica**: Avanza o retrocede meses desde un punto específico.
+    ```bash
+    node main.js molad 5788 Nisan +1
+    ```
+
+### 2. Cálculos de Estaciones (Tekufot)
+Utiliza el subcomando `estaciones`, `tekufot`, `e` o `t`:
+
+*   **Comparativa Completa**: Compara los cálculos de Shmuel, Ada y datos Astronómicos modernos.
+    ```bash
+    node main.js estaciones nisan 5786
     ```
 
 ---
 
-## 📊 ¿Qué devuelve el programa?
+## 📂 Estructura del Proyecto
 
-Al ejecutar el comando, obtendrás un reporte detallado que incluye:
+### Carpeta Raíz
+*   `main.js`: **Punto de mando central**. Dirige tus peticiones a los módulos de Molad o Estaciones.
 
-1.  **[SHMUEL]**: El cálculo basado en el año solar de 365.25 días. Verás la fecha y hora en Israel y su desviación respecto al cielo real (generalmente entre 17 y 19 días en nuestra época).
-2.  **[RAV ADA]**: El cálculo basado en el ciclo promedio de 19 años. Verás su fecha corregida y su desviación.
-3.  **[REAL]**: El momento astronómico exacto (Equinoccio/Solsticio) calculado científicamente para ese año.
+### Módulo de Molad (`/molad`)
+*   `base.js`: Contiene las **constantes básicas** (halakim, horas) y funciones matemáticas base (`toHalakim`, `fromHalakim`).
+*   `dejiot.js`: Implementa las **4 reglas de posposición** (Dehiyyot) de Rosh Hashaná (Molad Zaken, ADU, GaTRaD, BeTuTaKPaT).
+*   `molad_hashana.js`: Motor de **caracterización del año**. Determina si el año es Deficiente, Regular o Completo.
+*   `molad_main.js`: Expone la lógica de cálculo mensual para ser usada por el panel central.
+*   `conversores.js`: Utilidades para traducir entre el **horario civil y el horario halájico**.
 
----
-
-## 🏗️ Estado del Proyecto
-
-*   ✅ **Comparación de Estaciones**: Terminado y funcional (Shmuel vs Rav Ada vs Real).
-*   🚧 **Módulo Molad**: En desarrollo. Actualmente en `molad.js` y `1.js` se están implementando las funciones para calcular la aparición de la luna y las posposiciones (*Dejiot*) de Rosh Hashaná.
-
----
-
-## 🌍 Tecnologías
-*   **JavaScript (ESM)**
-*   **Node.js**
-*   **Astronomy-Engine**: Para cálculos astronómicos precisos.
-*   **Hebcal Core**: Para manejo de fechas hebreas.
+### Módulo de Estaciones (`/estaciones`)
+*   `estaciones_main.js`: Lógica principal para la consulta de Tekufot.
+*   `comparacion.js`: Archivo encargado de **comparar las tres fuentes** (Astronomía real vs. Ada vs. Shmuel).
+*   `tekufot-shmuel.js` / `tekufot-ada.js`: Implementaciones específicas de los cálculos solares tradicionales.
 
 ---
+
+## 🛠️ Requisitos
+*   **Node.js v18+**
+*   Haber instalado las dependencias:
+    ```bash
+    npm install @hebcal/core
+    ```
+
+---
+*Desarrollado para el estudio profundo de los fundamentos del calendario hebreo.*
