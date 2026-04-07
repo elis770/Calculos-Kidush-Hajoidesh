@@ -1,0 +1,14 @@
+{
+    "name": "calculos",
+    "version": "1.0.0",
+    "type": "module",
+    "description": "Cálculos de la Tekufa (Jewish seasonal cycle) en JavaScript.",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js"
+    },
+    "dependencies": {
+        "@hebcal/core": "^6.0.8",
+        "astronomy-engine": "^2.1.19"
+    }
+}
